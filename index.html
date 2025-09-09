@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dynamic Form Generator</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <style>
+      body {
+        background: #f8f9fa;
+      }
+      .sidebar {
+        min-height: 100vh;
+        background: #fff;
+        border-right: 1px solid #dee2e6;
+        padding: 20px;
+      }
+      .form-preview {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        padding: 25px;
+        min-height: 400px;
+      }
+      .navbar-brand {
+        font-weight: 600;
+      }
+      .extra-inputs {
+        margin-left: 20px;
+        margin-top: 10px;
+        display: none;
+      }
+      .option-input {
+        display: flex;
+        gap: 5px;
+        margin-bottom: 5px;
+      }
+      .text-danger {
+        font-size: 0.875rem;
+        margin-top: 3px;
+      }
+      .btn-group {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+      <div class="container">
+        <a class="navbar-brand text-primary" href="#">Dynamic Form Generator</a>
+      </div>
+    </nav>
+
+    <div class="container-fluid mt-4">
+      <div class="row">
+        <div class="col-md-3 sidebar">
+          <h5 class="mb-3">Select Fields</h5>
+
+          <!-- Text Input -->
+          <div class="form-check mb-2">
+            <input
+              class="form-check-input toggle-extra"
+              type="checkbox"
+              value="text"
+              id="textField"
+            />
+            <label class="form-check-label" for="textField">Text Input</label>
+          </div>
+          <div class="extra-inputs" id="text-extra">
+            <input
+              type="text"
+              class="form-control mb-2"
+              id="text_label"
+              placeholder="Enter field label (Required)"
+            />
+            <input
+              type="text"
+              class="form-control mb-2"
+              id="text_placeholder"
+              placeholder="Enter placeholder (optional)"
+            />
+            <button
+              type="button"
+              class="btn btn-success btn-sm"
+              onclick="addField('text')"
+            >
+              ADD
+            </button>
+          </div>
+
+          <!-- Email -->
+          <div class="form-check mb-2">
+            <input
+              class="form-check-input toggle-extra"
+              type="checkbox"
+              value="email"
+              id="emailField"
+            />
+            <label class="form-check-label" for="emailField"
+              >Email Address</label
+            >
+          </div>
+          <div class="extra-inputs" id="email-extra">
+            <input
+              type="text"
+              class="form-control mb-2"
+              id="email_label"
+              placeholder="Enter field label (Required)"
+            />
+            <input
+              type="text"
+              class="form-control mb-2"
+              id="email_placeholder"
+              placeholder="Enter placeholder (optional)"
+            />
+            <button
+              type="button"
+              class="btn btn-success btn-sm"
+              onclick="addField('email')"
+            >
+              ADD
+            </button>
+          </div>
+
+          <!-- Password -->
+          <div class="form-check mb-2">
+            <input
+              class="form-check-input toggle-extra"
+              type="checkbox"
+              value="password"
+              id="passwordField"
+            />
+            <label class="form-check-label" for="passwordField">Password</label>
+          </div>
+          <div class="extra-inputs" id="password-extra">
+            <input
+              type="text"
+              class="form-control mb-2"
+              id="password_label"
+              placeholder="Enter field label (Required)"
+            />
+            <input
+              type="text"
+              class="form-control mb-2"
+              id="password_placeholder"
+              placeholder="Enter placeholder (optional)"
+            />
+            <button
+              type="button"
+              class="btn btn-success btn-sm"
+              onclick="addField('password')"
+            >
+              ADD
+            </button>
+          </div>
+
+          <!-- Phone Number -->
+          <div class="form-check mb-2">
+            <input
+              class="form-check-input toggle-extra"
+              type="checkbox"
+              value="phone"
+              id="phoneField"
+            />
+            <label class="form-check-label" for="phoneField"
+              >Phone Number</label
+            >
+          </div>
+          <div class="extra-inputs" id="phone-extra">
+            <input
+              type="text"
+              class="form-control mb-2"
+              id="phone_label"
+              placeholder="Enter field label (Required)"
+            />
+            <input
+              type="text"
+              class="form-control mb-2"
+              id="phone_placeholder"
+              placeholder="Enter placeholder (optional)"
+            />
+            <button
+              type="button"
+              class="btn btn-success btn-sm"
+              onclick="addField('phone')"
+            >
+              ADD
+            </button>
+          </div>
+
+          <!-- Radio Button -->
+          <div class="form-check mb-2">
+            <input
+              class="form-check-input toggle-extra"
+              type="checkbox"
+              value="radio"
+              id="radioField"
+            />
+            <label class="form-check-label" for="radioField"
+              >Radio Button</label
+            >
+          </div>
+          <div class="extra-inputs" id="radio-extra">
+            <input
+              type="text"
+              class="form-control mb-2"
+              id="radio_label"
+              placeholder="Enter field label (Required)"
+            />
+            <div id="radio_options"></div>
+            <button
+              type="button"
+              class="btn btn-secondary btn-sm mb-2"
+              onclick="addOption('radio')"
+            >
+              + Add Option
+            </button>
+            <div class="form-check form-switch mb-2">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="radio_multiple"
+              />
+              <label class="form-check-label" for="radio_multiple"
+                >Allow Multiple Selection</label
+              >
+            </div>
+            <button
+              type="button"
+              class="btn btn-success btn-sm"
+              onclick="addField('radio')"
+            >
+              ADD
+            </button>
+          </div>
+
+          <!-- Checkbox -->
+          <div class="form-check mb-2">
+            <input
+              class="form-check-input toggle-extra"
+              type="checkbox"
+              value="checkbox"
+              id="checkboxField"
+            />
+            <label class="form-check-label" for="checkboxField">Checkbox</label>
+          </div>
+          <div class="extra-inputs" id="checkbox-extra">
+            <input
+              type="text"
+              class="form-control mb-2"
+              id="checkbox_label"
+              placeholder="Enter field label (Required)"
+            />
+            <div id="checkbox_options"></div>
+            <button
+              type="button"
+              class="btn btn-secondary btn-sm mb-2"
+              onclick="addOption('checkbox')"
+            >
+              + Add Option
+            </button>
+            <button
+              type="button"
+              class="btn btn-success btn-sm"
+              onclick="addField('checkbox')"
+            >
+              ADD
+            </button>
+          </div>
+
+          <!-- Dropdown -->
+          <div class="form-check mb-2">
+            <input
+              class="form-check-input toggle-extra"
+              type="checkbox"
+              value="dropdown"
+              id="dropdownField"
+            />
+            <label class="form-check-label" for="dropdownField">Dropdown</label>
+          </div>
+          <div class="extra-inputs" id="dropdown-extra">
+            <input
+              type="text"
+              class="form-control mb-2"
+              id="dropdown_label"
+              placeholder="Enter field label (Required)"
+            />
+            <div id="dropdown_options"></div>
+            <button
+              type="button"
+              class="btn btn-secondary btn-sm mb-2"
+              onclick="addOption('dropdown')"
+            >
+              + Add Option
+            </button>
+            <button
+              type="button"
+              class="btn btn-success btn-sm"
+              onclick="addField('dropdown')"
+            >
+              ADD
+            </button>
+          </div>
+        </div>
+
+        <div class="col-md-9">
+          <form
+            class="form-preview"
+            id="formPreview"
+            action="submit.php"
+            method="POST"
+          >
+            <h4 class="mb-3">Form Preview</h4>
+            <p class="text-muted">
+              Your generated form will appear here after selecting fields.
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <footer class="bg-white text-center py-3 mt-4 border-top">
+      © 2025 Dynamic Form Project
+    </footer>
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script>
+      // Show/hide extra input sections
+      document.querySelectorAll(".toggle-extra").forEach((input) => {
+        input.addEventListener("change", function () {
+          const target = document.getElementById(this.value + "-extra");
+          target.style.display = this.checked ? "block" : "none";
+        });
+      });
+
+      // Restrict phone inputs to digits only
+      document.addEventListener("input", function (e) {
+        if (e.target.matches('input[type="tel"]')) {
+          e.target.value = e.target.value.replace(/\D/g, "");
+        }
+      });
+
+      function addOption(type) {
+        const container = document.getElementById(type + "_options");
+        const input = document.createElement("div");
+        input.className = "option-input";
+        input.innerHTML = `<input type="text" class="form-control" placeholder="Option text"> 
+                 <button type="button" class="btn btn-danger btn-sm" onclick="this.parentElement.remove()">X</button>`;
+        container.appendChild(input);
+      }
+
+      let fieldCount = 0;
+
+      function addField(type) {
+        const preview = document.getElementById("formPreview");
+
+        // Remove placeholder text if present
+        preview.querySelector("p")?.remove();
+
+        let label = document.getElementById(type + "_label")?.value.trim();
+        if (!label) {
+          alert("Field label is required!");
+          return;
+        }
+
+        fieldCount++;
+        let fieldId = "field_" + fieldCount;
+
+        let wrapperStart = `<div class="mb-3 position-relative border rounded p-3" id="${fieldId}">
+                    <button type="button" class="btn-close position-absolute top-0 end-0 m-2" aria-label="Close" onclick="removeField('${fieldId}')"></button>`;
+        let wrapperEnd = `<div class="text-danger small" id="error-${fieldId}"></div></div>`;
+        let html = `<input type="hidden" name="${fieldId}_label" value="${label}">`; // store label for PHP
+
+        switch (type) {
+          case "text":
+          case "email":
+          case "password":
+          case "phone":
+            let placeholder =
+              document.getElementById(type + "_placeholder")?.value || "";
+            html += `<label class="form-label">${label}</label>
+           <input type="${
+             type === "phone" ? "tel" : type
+           }" class="form-control" name="${fieldId}" placeholder="${placeholder}">`;
+            break;
+
+          case "radio":
+            const radioOptions = Array.from(
+              document.querySelectorAll("#radio_options input")
+            )
+              .map((i) => i.value)
+              .filter((v) => v.trim() !== "");
+            const allowMultiple =
+              document.getElementById("radio_multiple").checked;
+            html += `<label class="form-label">${label}</label><br>`;
+            radioOptions.forEach((opt, idx) => {
+              html += `<div class="form-check form-check-inline">
+              <input class="form-check-input" type="${
+                allowMultiple ? "checkbox" : "radio"
+              }" name="${fieldId}[]" value="${opt}" id="${fieldId}_option${idx}">
+              <label class="form-check-label" for="${fieldId}_option${idx}">${opt}</label>
+             </div>`;
+            });
+            break;
+
+          case "checkbox":
+            const checkOptions = Array.from(
+              document.querySelectorAll("#checkbox_options input")
+            )
+              .map((i) => i.value)
+              .filter((v) => v.trim() !== "");
+            html += `<label class="form-label">${label}</label><br>`;
+            checkOptions.forEach((opt, idx) => {
+              html += `<div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" name="${fieldId}[]" value="${opt}" id="${fieldId}_option${idx}">
+              <label class="form-check-label" for="${fieldId}_option${idx}">${opt}</label>
+             </div>`;
+            });
+            break;
+
+          case "dropdown":
+            const dropOptions = Array.from(
+              document.querySelectorAll("#dropdown_options input")
+            )
+              .map((i) => i.value)
+              .filter((v) => v.trim() !== "");
+            html += `<label class="form-label">${label}</label>
+           <select class="form-select" name="${fieldId}">
+            ${dropOptions.map((opt) => `<option>${opt}</option>`).join("")}
+           </select>`;
+            break;
+        }
+
+        let btnGroup = document.getElementById("btnGroup");
+        if (!btnGroup) {
+          btnGroup = document.createElement("div");
+          btnGroup.id = "btnGroup";
+          btnGroup.className = "btn-group mt-3";
+          btnGroup.innerHTML = `
+  <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+  <button type="button" class="btn btn-secondary btn-sm" onclick="resetForm()">Reset</button>
+`;
+          preview.appendChild(btnGroup);
+        }
+
+        btnGroup.insertAdjacentHTML(
+          "beforebegin",
+          wrapperStart + html + wrapperEnd
+        );
+      }
+
+      function removeField(id) {
+        document.getElementById(id).remove();
+      }
+
+      function resetForm() {
+        const preview = document.getElementById("formPreview");
+        preview.innerHTML = `<h4 class="mb-3">Form Preview</h4>
+                   <p class="text-muted">Your generated form will appear here after selecting fields.</p>`;
+        document
+          .querySelectorAll(".toggle-extra")
+          .forEach((chk) => (chk.checked = false));
+        document
+          .querySelectorAll(".extra-inputs")
+          .forEach((div) => (div.style.display = "none"));
+        fieldCount = 0;
+      }
+
+      document
+        .getElementById("formPreview")
+        .addEventListener("submit", function (e) {
+          e.preventDefault(); // stop normal submission
+          const preview = this;
+          let hasError = false;
+
+          // Clear previous errors
+          document
+            .querySelectorAll(".text-danger")
+            .forEach((el) => (el.innerText = ""));
+
+          preview.querySelectorAll("div[id^='field_']").forEach((fieldDiv) => {
+            const inputs = Array.from(
+              fieldDiv.querySelectorAll("input, select")
+            ).filter((i) => i.type !== "hidden");
+            const labelInput = fieldDiv.querySelector("input[type='hidden']");
+            const label = labelInput ? labelInput.value : "Field";
+            let isFilled = false;
+
+            if (inputs.length) {
+              const input = inputs[0];
+              if (input.type === "radio") {
+                isFilled = Array.from(inputs).some((i) => i.checked);
+              } else if (input.type === "checkbox") {
+                isFilled = Array.from(inputs).some((i) => i.checked);
+              } else if (input.tagName === "SELECT") {
+                isFilled = input.value.trim() !== "";
+              } else if (input.type === "tel") {
+                isFilled = /^\d{10}$/.test(input.value.trim());
+              } else {
+                isFilled = input.value.trim() !== "";
+              }
+            }
+
+            if (!isFilled) {
+              const errorDiv = fieldDiv.querySelector(".text-danger");
+              if (errorDiv) {
+                if (inputs[0].type === "tel") {
+                  errorDiv.innerText = label + " must be exactly 10 digits!";
+                } else {
+                  errorDiv.innerText = label + " is required!";
+                }
+              }
+              hasError = true;
+            }
+          });
+
+          // ✅ Only submit if no error
+          if (!hasError) {
+            const formData = new FormData(this);
+            fetch(this.action, { method: "POST", body: formData })
+              .then((res) => res.json())
+              .then((data) => {
+                if (data.success) {
+                  alert("✅ Form submitted successfully!");
+                  resetForm();
+                } else {
+                  for (const fieldId in data.errors) {
+                    const errorDiv = document.getElementById(
+                      "error-" + fieldId
+                    );
+                    if (errorDiv) errorDiv.innerText = data.errors[fieldId];
+                  }
+                }
+              })
+              .catch((err) => console.error(err));
+          } else {
+            // ❌ Prevent submission entirely
+            console.log("Form has errors, not submitted.");
+          }
+        });
+    </script>
+  </body>
+</html>
